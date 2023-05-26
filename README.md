@@ -24,7 +24,7 @@ Here is what happens every time the AI is queried by the user:
 6. AI stores the current query and its answer in its Pinecone vector database memory
 
 ## How to Use
-1. Clone the repository via `git clone https://github.com/seanpixel/Teenage-AGI.git` and cd into the cloned repository.
+1. Clone the repository via `git clone https://github.com/SageLLM/Sage-Thoughts.git` and cd into the cloned repository.
 2. Install required packages by doing: pip install -r requirements.txt
 3. Create a .env file from the template `cp .env.template .env`
 4. `open .env` and set your OpenAI and Pinecone API info.
@@ -35,6 +35,9 @@ You can run the system isolated in a container using docker-compose:
 ```
 docker-compose run teenage-agi
 ```
+
+## Running flask server
+You can serve the app with ```gunicorn -b 0.0.0.0:8000 serve_flask:app```
 
 ## Experiments
 Currently, using GPT-4, I found that it can remember its name and other characteristics. It also carries on the conversation quite well without a context window (although I might add it soon). I will update this section as I keep playing with it.
