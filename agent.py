@@ -31,8 +31,8 @@ def generate(prompt):
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_ORG = os.getenv("OPENAI_ORG")
 PINECONE_API_ENV = os.getenv("PINECONE_API_ENV")
-#PINECONE_API_ENV = "asia-southeast1-gcp"
     
 # Prompt Initialization
 with open('prompts.yaml', 'r') as f:
@@ -61,6 +61,7 @@ pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_API_ENV)
 
 # initialize openAI
 openai.api_key = OPENAI_API_KEY # you can just copy and paste your key here if you want
+openai.organization = OPENAI_ORG
 
 def get_ada_embedding(text):
         text = text.replace("\n", " ")
