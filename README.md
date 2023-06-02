@@ -39,7 +39,10 @@ docker-compose run teenage-agi
 You can serve the app for development with `flask --debug --app serve_flask run`
 
 ## Running flask server
-You can serve the app with `gunicorn -b 0.0.0.0:8000 serve_flask:app` (not available on Windows)
+You can serve the app by activating the venv, then `gunicorn -b 0.0.0.0:8000 serve_flask:app` (not available on Windows)
+
+## Running flask server with pm2
+`pm2 -i 1 --name=sagestaging start "source .venv/bin/activate && gunicorn -b 127.0.0.1:8000 serve_flask:app"`
 
 ## Experiments
 Currently, using GPT-4, I found that it can remember its name and other characteristics. It also carries on the conversation quite well without a context window (although I might add it soon). I will update this section as I keep playing with it.
