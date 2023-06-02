@@ -35,9 +35,11 @@ You can run the system isolated in a container using docker-compose:
 ```
 docker-compose run teenage-agi
 ```
+## Develop flask server
+You can serve the app for development with `flask --debug --app serve_flask run`
 
 ## Running flask server
-You can serve the app with ```gunicorn -b 0.0.0.0:8000 serve_flask:app```
+You can serve the app with `gunicorn -b 0.0.0.0:8000 serve_flask:app` (not available on Windows)
 
 ## Experiments
 Currently, using GPT-4, I found that it can remember its name and other characteristics. It also carries on the conversation quite well without a context window (although I might add it soon). I will update this section as I keep playing with it.

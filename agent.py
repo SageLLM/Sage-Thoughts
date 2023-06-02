@@ -5,6 +5,7 @@ import yaml
 from dotenv import load_dotenv
 import nltk
 from langchain.text_splitter import NLTKTextSplitter
+import time
 
 # Download NLTK for Reading
 nltk.download('punkt')
@@ -15,19 +16,31 @@ text_splitter = NLTKTextSplitter(chunk_size=2500)
 # Load default environment variables (.env)
 load_dotenv()
 
-OPENAI_MODEL = os.getenv("OPENAI_MODEL") or "gpt-4"
+OPENAI_MODEL = os.getenv("OPENAI_MODEL") or "gpt-3.5-turbo"
+OPENAI_TEMP = os.getenv("OPENAI_TEMP") or 0
 
-def generate(prompt):
-    completion = openai.ChatCompletion.create(
-    model=OPENAI_MODEL,
-    messages=[
-        {"role": "system", "content": "You are an intelligent agent with thoughts and memories. You have a memory which stores your past thoughts and actions and also how other users have interacted with you."},
-        {"role": "system", "content": "Keep your thoughts relatively simple and concise"},
-        {"role": "user", "content": prompt},
-        ]
-    )
 
-    return completion.choices[0].message["content"]
+def generate(prompt, retries=1):
+    for attempt in range(retries + 1):
+        try:
+            completion = openai.ChatCompletion.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are an intelligent agent with thoughts and memories. You have a memory which stores your past thoughts and actions and also how other users have interacted with you."},
+                    {"role": "system", "content": "Keep your thoughts relatively simple and concise"},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=float(OPENAI_TEMP),
+            )
+
+            return completion.choices[0].message["content"]
+        except Exception as e:
+            if attempt < retries:
+                # print exception
+                print(e)
+                time.sleep(1)  # Wait for 1 second before retrying
+            else:
+                return f"Sage encountered an error while generating your response: {e}. Please try again later."
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

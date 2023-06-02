@@ -7,7 +7,7 @@ from flask import Flask, request
 # Load default environment variables (.env)
 load_dotenv()
 
-AGENT_NAME = os.getenv("AGENT_NAME", "my-agent")
+AGENT_NAME = os.getenv("AGENT_NAME", "sage-primary-agent")
 
 agent = Agent(AGENT_NAME)
 
@@ -20,9 +20,12 @@ print("Talk to the AI!")
 
 @app.route("/", methods=['POST'])
 def default_action():
+    # print(request)
+    # print(request.form)
     request_keys = request.form.keys()
-    print(request_keys)
-    agent_response = agent.action(request.form.request_keys[0])
+    # print(request_keys)
+    agent_response = agent.action(request.form['query'])
+    # print(agent_response)
     return agent_response
     
 if __name__ == "__main__":
